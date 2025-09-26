@@ -2,5 +2,5 @@
 
 ## Current scripts
 
-- [C-tele](/scripts/c-tele.user.js)
-- [SchaleNetwork](/scripts/niyaniya.user.js)
+- [C-tele](https://raw.githubusercontent.com/Zap-09/Tempermonkey_scripts/refs/heads/master/scripts/c-tele.user.js)
+- [SchaleNetwork](https://raw.githubusercontent.com/Zap-09/Tempermonkey_scripts/refs/heads/master/scripts/niyaniya.user.js)
