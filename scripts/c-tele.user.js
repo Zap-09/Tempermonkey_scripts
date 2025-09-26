@@ -59,6 +59,12 @@
         z-index: 200;
     }
 
+    @media (max-width: 600px) {
+        #banner{
+            width: 15rem;
+        }
+    }
+
     .download_btn{
         border-radius: 99px;
         background-color: #b20000;
