@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         C-tele Downloader
 // @namespace    http://tampermonkey.net/
-// @version      2025-09-25
+// @version      1.1
 // @description  Gallery downloader for cosplaytele.
 // @author       Zap_09
 // @match        https://cosplaytele.com/*
@@ -25,15 +25,21 @@
 
     let all_p_tags = main_content.querySelectorAll("p");
 
-    let last_entry_number = all_p_tags.length - 1;
-    let last_p_tag = all_p_tags[last_entry_number];
+    let last_p_tag = null
+    if (all_p_tags.length > 3) {
+        last_p_tag = all_p_tags[2]
+    } else{
+        let last_entry_number = all_p_tags.length - 1;
+        last_p_tag = all_p_tags[last_entry_number];
+    }
+
 
 
 
     let new_element = document.createElement("p");
     new_element.style = `text-align: center;`
 
-    new_element.innerHTML = '<strong><span class="button alert download_btn" id= "download_btn"style="font-size: 100%;">Download</span></strong>'
+    new_element.innerHTML = '<strong><span class="button alert download_btn" id= "download_btn"style="font-size: 100%; margin-right:0;">Download by script</span></strong>'
 
     last_p_tag.insertAdjacentElement("afterend", new_element);
 
@@ -43,8 +49,8 @@
 
     let banner_css = `
     #banner{
-        background-color: #010101;
-        color: #ffffff;
+        background-color: #131313ff;
+        color: #e0e0e0ff;
         text-align: center;
         width: 25vw;
         max-width: 300px;
@@ -166,7 +172,7 @@
 
 
         let title = get_title();
-        console.log("got this title")
+        console.log("got the title")
         let urls = get_images();
         console.log("got the urls")
         if (title) {
