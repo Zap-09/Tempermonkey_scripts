@@ -12,8 +12,7 @@
 (function () {
     "use strict";
 
-    //itchio
-    //eyJhbGxvd19uc2Z3Ijp0cnVlfQ%3d%3d%0a%2d%2dylII8ZUiZ1EbYYkMPud05e7WlxM%3d
+
 
     function getCookie(name) {
         let match = document.cookie.match(
