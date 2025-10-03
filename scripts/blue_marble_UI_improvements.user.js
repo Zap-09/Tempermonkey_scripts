@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blue marble UI improvements
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  Make the Blue Marble UI collapsable.
 // @author       Zap_09
 // @match        https://wplace.live/*
@@ -9,8 +9,27 @@
 // @grant        none
 // ==/UserScript==
 
-(function () {
+(async function () {
+    function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
     let blue_UI = document.getElementById("bm-A");
+    let retries = 0; 
+    while (retries <= 3) {
+        if (!blue_UI) {
+            await sleep(3000)
+            blue_UI = document.getElementById("bm-A");
+            retries++;
+        } else{
+            break
+        }
+        if (retries >= 3){
+            alert("Couldn't find Blue Marble active. Please get that first")
+            return
+        }
+    }
+
     blue_UI.style.overflowY = "hidden";
 
     let first_h1 = blue_UI.querySelector("h1");
@@ -28,9 +47,9 @@
     let is_active = localStorage.getItem("is_active") === "true";
 
     if (is_active) {
-        blue_UI.style.height = "455.133px";  
+        blue_UI.style.height = "455.133px";
     } else {
-        blue_UI.style.height = "70px";  
+        blue_UI.style.height = "70px";
     }
 
     function toggle_collapse() {
