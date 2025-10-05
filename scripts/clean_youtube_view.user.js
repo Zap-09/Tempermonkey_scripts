@@ -4,7 +4,7 @@
 // @version      1.0
 // @description  Adds a hot key to hide the UI. Current hotkey is X.
 // @author       Zap_09
-// @match        https://www.youtube.com/watch?*
+// @match        https://www.youtube.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
 // @grant        none
 // ==/UserScript==
