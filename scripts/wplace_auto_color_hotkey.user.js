@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Wplace Auto color hotkey.
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Adds an Hotkey to auto color the pixel under the cursor.
 // @author       Zap_09
 // @match        https://wplace.live/*
@@ -10,14 +10,14 @@
 // ==/UserScript==
 
 (async function () {
-    'use strict';
+    "use strict";
 
     function sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
     async function add_settings() {
-        wait_till_visible("[title = 'Info']")
+        await wait_till_visible("[title = 'Info']");
 
         let Leaderboard_btn = document.querySelector("[title = 'Info']");
         let LeaderboardParent = Leaderboard_btn.parentElement;
@@ -54,14 +54,16 @@
 
     async function add_settings_box() {
         //adds the hotkey function
+        await wait_till_visible("#hotkey");
+        await wait_till_visible("#delay");
         let hotkey = localStorage.getItem("hotkey");
-        let delay = localStorage.getItem("hotkey_delay") 
+        let delay = localStorage.getItem("hotkey_delay");
 
         if (!hotkey) {
             localStorage.setItem("hotkey", "x");
         }
 
-        if(!delay){
+        if (!delay) {
             localStorage.setItem("hotkey_delay", "200");
         }
 
@@ -71,11 +73,10 @@
 
         hotkey_box.value = hotkey;
         delay_box.value = delay;
-        
 
         function update_hotkey() {
             localStorage.setItem("hotkey", hotkey_box.value);
-            localStorage.setItem("hotkey_delay",delay_box.value);
+            localStorage.setItem("hotkey_delay", delay_box.value);
         }
 
         let save_btn = document.getElementById("save");
@@ -83,25 +84,25 @@
         save_btn.addEventListener("click", update_hotkey);
     }
 
-    async function wait_till_visible(element){
+    async function wait_till_visible(element) {
+        await sleep(1000);
 
-        // let wait_element = document.querySelector(element);
-        let tries = 0
-        while (tries<5) {
+        let tries = 0;
+        while (tries < 5) {
             let wait_element = document.querySelector(element);
-            if(!wait_element){
-                await sleep(1000)
-                console.log("Couldn't find the element. Trying again.")
-                tries ++
+            if (!wait_element) {
+                await sleep(3000);
+                console.log("Couldn't find the element. Trying again.");
+                tries++;
             } else {
-                console.log("Found the elemenet")
-                break
+                console.log("Found the elemenet");
+                break;
             }
         }
     }
 
-    function add_css(){
-            let my_css = `    
+    function add_css() {
+        let my_css = `    
         .settings_box_wapper{
         position: fixed;
         left: -100%;
@@ -156,31 +157,32 @@
     #delay{
         width: 4rem;
     }`;
-        let style_tag = document.createElement("style")
-        style_tag.innerHTML = my_css
+        let style_tag = document.createElement("style");
+        style_tag.innerHTML = my_css;
 
-        document.body.appendChild(style_tag)
+        document.body.appendChild(style_tag);
     }
 
     let is_settings_box_shown = false;
-    function toggle_settings(){
+    function toggle_settings() {
         let box_of_settings = document.querySelector(".settings_box_wapper");
 
         if (!is_settings_box_shown) {
-            box_of_settings.style.left = "20px"
+            box_of_settings.style.left = "20px";
             is_settings_box_shown = true;
-        } else{
-            box_of_settings.style.left = "-100%"
+        } else {
+            box_of_settings.style.left = "-100%";
             is_settings_box_shown = false;
         }
-
     }
-    
+
     add_css();
     add_settings();
     add_settings_box();
+
+    await wait_till_visible("[title ='settings']");
     let btn_settings = document.querySelector("[title ='settings']");
-    btn_settings.addEventListener("click",toggle_settings)
+    btn_settings.addEventListener("click", toggle_settings);
 
     let mouseX = 0;
     let mouseY = 0;
@@ -190,10 +192,8 @@
         mouseY = e.clientY;
     });
 
-
-
     document.addEventListener("keydown", async function (e) {
-        let _hotkey = localStorage.getItem("hotkey")
+        let _hotkey = localStorage.getItem("hotkey");
         if (e.key === _hotkey) {
             e.preventDefault();
             console.log("X pressed!");
@@ -233,8 +233,8 @@
             }
 
             fireClick(canvas, mouseX, mouseY);
-            let c_delay = localStorage.getItem("hotkey_delay")
-            c_delay = parseInt(c_delay)
+            let c_delay = localStorage.getItem("hotkey_delay");
+            c_delay = parseInt(c_delay);
             await sleep(c_delay);
             fireClick(canvas, mouseX, mouseY);
         }
